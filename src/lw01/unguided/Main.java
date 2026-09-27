@@ -24,7 +24,6 @@ public class Main {
                     wash = new MotorcycleWash(id, days);
                 }
                 washes[i] = wash;
-                i++;
             }
         }
         scan.close();
