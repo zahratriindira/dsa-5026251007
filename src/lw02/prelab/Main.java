@@ -9,9 +9,9 @@ import java.util.Stack;
 public class Main {
     public static void main(String[] args) {
         // LinkedList untuk menyimpan data transaksi
-        LinkedList<String[]> transactionList = new LinkedList<>();
+        LinkedList<String[]> transactions = new LinkedList<>();
         // LinkedList untuk menyimpan data nasabah
-        LinkedList<String[]> customerList = new LinkedList<>();
+        LinkedList<String[]> customers = new LinkedList<>();
 
         // Membaca input file
         try (InputStream is = Main.class.getResourceAsStream("transaction.txt")) {
@@ -31,18 +31,18 @@ public class Main {
                     String amount = parts[2];
 
                     // Simpah transaksi ke LinkedList
-                    transactionList.add(new String[]{name, type, amount});
+                    transactions.add(new String[]{name, type, amount});
 
                     // Daftarkan nasabah jika belum ada
                     boolean exists = false;
-                    for (String[] customer : customerList) {
+                    for (String[] customer : customers) {
                         if (customer[0].equals(name)) {
                             exists = true;
                             break;
                         }
                     }
                     if (!exists) {
-                        customerList.add(new String[]{name, "0"}); // Inisialisasi saldo nasabah dengan 0
+                        customers.add(new String[]{name, "0"}); // Inisialisasi saldo nasabah dengan 0
                     }
                 }
             }
@@ -53,7 +53,7 @@ public class Main {
 
         // Pindahkan transaksi dari LinkedList ke Queue untuk diproses
         Queue<String[]> transactionQueue = new LinkedList<>();
-        for (String[] trans : transactionList) {
+        for (String[] trans : transactions) {
             transactionQueue.add(trans);
         }
         
@@ -67,9 +67,9 @@ public class Main {
             String type = trans[1];
             int amount = Integer.parseInt(trans[2]);
 
-            // Cari nasabah di customerList
+            // Cari nasabah di customers
             String[] targetCustomer = null;
-            for (String[] cust : customerList) {
+            for (String[] cust : customers) {
                 if (cust[0].equals(name)) {
                     targetCustomer = cust;
                     break;
@@ -96,7 +96,7 @@ public class Main {
         // Cetak hasil sesuai format output
         System.out.println("=== Final Balances ===");
             
-        for (String[] cust : customerList) {
+        for (String[] cust : customers) {
             System.out.println(cust[0] + " : " + cust[1]);
         }
 
